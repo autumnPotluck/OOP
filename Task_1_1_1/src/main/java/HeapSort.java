@@ -56,26 +56,9 @@ public class HeapSort {
     }
 
     /**
-     * Demonstration of a working algorithm.
+     * Demonstration of a working algorithm was there.
      * */
-    public static void main(String[] args) {
-        int[] data = {4, 1, 9, 3, 7, 8, 2, 6, 4, 0};
-        System.out.print("Before: ");
-        printArray(data);
-        sort(data);
-        System.out.print("After: ");
-        printArray(data);
-    }
+    public static void main(String[] args) {}
 
-    static void printArray(int[] arr) {
-        StringBuilder sb = new StringBuilder("[");
-        for (int i = 0; i < arr.length; i++) {
-            if (i > 0) {
-                sb.append(", ");
-            }
-            sb.append(arr[i]);
-        }
-        sb.append("]");
-        System.out.println(sb);
-    }
+
 }
