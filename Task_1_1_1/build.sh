@@ -1,5 +1,3 @@
-set -euo pipefail
-
 SRC_MAIN="src/main/java"
 OUT_MAIN="out/main"
 DOCS="docs"
@@ -11,14 +9,10 @@ rm -rf out docs "$JAR_NAME"
 mkdir -p "$OUT_MAIN" "$DOCS"
 
 echo "==> Compiling"
-javac --release 25 -d "$OUT_MAIN" \
-    $(find "$SRC_MAIN" -name '*.java')
+javac -d "$OUT_MAIN" "$SRC_MAIN" -name '*.java'
 
 echo "==> Generating Javadoc"
-javadoc -d docs -encoding UTF-8 -charset UTF-8 \
-        -sourcepath "$SRC_MAIN" \
-        $(find "$SRC_MAIN" -name '*.java') \
-        -quiet
+javadoc -d docs -sourcepath "$SRC_MAIN" -name '*.java')
 
 echo "==> Cooking jar"
 jar --create --file "$JAR_NAME" \

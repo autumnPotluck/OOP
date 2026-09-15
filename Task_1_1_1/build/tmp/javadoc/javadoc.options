@@ -1,8 +1,0 @@
--classpath 'C:\\Users\\maria.WIN-2ODVKOADV9C\\IdeaProjects\\Task_1_1_1\\build\\classes\\java\\main;C:\\Users\\maria.WIN-2ODVKOADV9C\\IdeaProjects\\Task_1_1_1\\build\\resources\\main'
--quiet 
--d 'C:\\Users\\maria.WIN-2ODVKOADV9C\\IdeaProjects\\Task_1_1_1\\build\\docs\\javadoc'
--windowtitle 'Task_1_1_1 API'
--doctitle 'Task_1_1_1 API'
--notimestamp 
-'C:\\Users\\maria.WIN-2ODVKOADV9C\\IdeaProjects\\Task_1_1_1\\src\\main\\java\\Benchmark.java'
-'C:\\Users\\maria.WIN-2ODVKOADV9C\\IdeaProjects\\Task_1_1_1\\src\\main\\java\\HeapSort.java'

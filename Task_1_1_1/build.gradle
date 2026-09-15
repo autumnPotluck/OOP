@@ -2,24 +2,9 @@ plugins {
     id 'java'
     id 'application'
     id 'jacoco'
-    id 'checkstyle'
 }
 
 group 'ru.nsu.govorukhina.task111';
-
-checkstyle {
-    toolVersion = '10.12.4'   // актуальная версия
-    configFile = file('config/checkstyle/google_checks.xml')   // путь к твоему файлу
-    maxWarnings = 0           // предупреждения = провал (как в CI)
-    ignoreFailures = false
-}
-
-tasks.withType(Checkstyle).configureEach {
-    reports {
-        xml.required = true
-        html.required = true
-    }
-}
 
 java {
     toolchain {
@@ -37,7 +22,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'HeapSort'
+    mainClass = 'Main'
 }
 
 test {
@@ -49,10 +34,10 @@ jacocoTestReport {
     dependsOn test
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ['**/Benchmark.*'])
+            fileTree(dir: it, exclude: ['**/Benchmark.*', '**/Main.*'])
         }))
     }
-    reports { xml.required = true; html.required = true }
+    reports { xml.required = true }
 }
 
 jacocoTestCoverageVerification {

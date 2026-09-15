@@ -8,7 +8,7 @@ public class HeapSort {
      * @param arr - the array being sorted (can be null or empty)
      */
 
-    static void sort(int[] arr) {
+    public static void sort(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
         }
@@ -54,11 +54,5 @@ public class HeapSort {
         arr[i] = arr[j];
         arr[j] = tmp;
     }
-
-    /**
-     * Demonstration of a working algorithm was there.
-     * */
-    public static void main(String[] args) {}
-
 
 }
