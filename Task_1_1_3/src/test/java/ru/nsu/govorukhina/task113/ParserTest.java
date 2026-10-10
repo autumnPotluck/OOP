@@ -1,6 +1,7 @@
 package ru.nsu.govorukhina.task113;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -37,5 +38,35 @@ class ParserTest {
     @Test
     void parsesDivisionAndSubtraction() {
         assertEquals("((a-b)/(c+d))", Expression.parse("((a-b)/(c+d))").toString());
+    }
+
+    @Test
+    void rejectsTrailingInput() {
+        assertThrows(IllegalArgumentException.class, () -> Expression.parse("(1+2)3"));
+    }
+
+    @Test
+    void rejectsMissingClosingParenthesis() {
+        assertThrows(IllegalArgumentException.class, () -> Expression.parse("(1+2"));
+    }
+
+    @Test
+    void rejectsEmptyInput() {
+        assertThrows(IllegalArgumentException.class, () -> Expression.parse(""));
+    }
+
+    @Test
+    void rejectsUnknownOperator() {
+        assertThrows(IllegalArgumentException.class, () -> Expression.parse("(1^2)"));
+    }
+
+    @Test
+    void rejectsUnexpectedCharacter() {
+        assertThrows(IllegalArgumentException.class, () -> Expression.parse("@"));
+    }
+
+    @Test
+    void rejectsMissingRightOperand() {
+        assertThrows(IllegalArgumentException.class, () -> Expression.parse("(1+)"));
     }
 }

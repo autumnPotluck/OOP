@@ -1,5 +1,7 @@
 package ru.nsu.govorukhina.task113;
 
+import java.util.Map;
+
 /**
  * The sum of two expressions.
  */
@@ -17,6 +19,16 @@ public final class Add extends Expression {
     public Add(Expression left, Expression right) {
         this.left = left;
         this.right = right;
+    }
+
+    @Override
+    public Expression derivative(String variable) {
+        return new Add(left.derivative(variable), right.derivative(variable));
+    }
+
+    @Override
+    protected int eval(Map<String, Integer> bindings) {
+        return left.eval(bindings) + right.eval(bindings);
     }
 
     @Override

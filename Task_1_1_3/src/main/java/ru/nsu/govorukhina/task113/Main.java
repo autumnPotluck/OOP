@@ -34,6 +34,11 @@ public final class Main {
         Expression expression = Expression.parse(lines.get(0).trim());
         expression.print();
         System.out.println();
+        expression.derivative("x").print();
+        System.out.println();
+        if (lines.size() > 1) {
+            System.out.println(expression.eval(lines.get(1)));
+        }
     }
 
     private static List<String> readLines(String[] args) throws IOException {
