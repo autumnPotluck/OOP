@@ -3,7 +3,9 @@ package ru.nsu.govorukhina.task131;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -16,6 +18,55 @@ class SubstringFinderTest {
 
     @TempDir
     Path tempDir;
+
+    /**
+     * Generates a file larger than the JVM's maximum heap and scans it.
+     */
+    @Test
+    void fileLargerThanJvmHeapIsStillFound() throws IOException {
+        long maxHeap = Runtime.getRuntime().maxMemory();
+        long fileSize = 2 * maxHeap;
+        long blockSize = 1_000_000L;
+        Path file = tempDir.resolve("huge.txt");
+
+        long expectedMatches = generateSparseFile(file, "abracadabra", fileSize, blockSize);
+
+        List<Long> found;
+        try {
+            found = SubstringFinder.find(file.toString(), "abracadabra");
+        } catch (OutOfMemoryError oom) {
+            fail("find() ran out of memory, it must not load the file into memory. "
+                    + "File size was " + fileSize + " bytes, max heap " + maxHeap + " bytes.");
+            return;
+        }
+        assertEquals(expectedMatches, found.size(),
+                "file was " + fileSize + " bytes, max heap " + maxHeap + " bytes");
+    }
+
+    private static long generateSparseFile(Path file, String pattern,
+                                           long fileSize, long blockSize) throws IOException {
+        long matches = 0;
+        try (BufferedWriter w = Files.newBufferedWriter(file, StandardCharsets.UTF_8)) {
+            long written = 0;
+            while (written < fileSize) {
+                if (fileSize - written < pattern.length()) {
+                    for (long i = 0; i < fileSize - written; i++) {
+                        w.write('x');
+                    }
+                    break;
+                }
+                w.write(pattern);
+                written += pattern.length();
+                matches++;
+                long gap = Math.min(blockSize - pattern.length(), fileSize - written);
+                for (long i = 0; i < gap; i++) {
+                    w.write('x');
+                }
+                written += gap;
+            }
+        }
+        return matches;
+    }
 
     private Path writeFile(String content) throws IOException {
         Path file = tempDir.resolve("input.txt");
@@ -104,7 +155,7 @@ class SubstringFinderTest {
     }
 
     @Test
-    void largeFileCrossesManyBufferBoundaries() throws IOException {
+    void fileCrossesManyBufferBoundaries() throws IOException {
         String pattern = "abracadabra";
         int repeats = 5000;
         StringBuilder sb = new StringBuilder();

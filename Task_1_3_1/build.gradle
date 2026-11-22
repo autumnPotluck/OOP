@@ -29,6 +29,7 @@ application {
 
 test {
     useJUnitPlatform()
+    maxHeapSize = "128m" // so maxMemory() will return 128 MB
     finalizedBy jacocoTestReport
 }
 
